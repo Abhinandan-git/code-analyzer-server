@@ -5,9 +5,12 @@ name: Flask Application
 
 on:
   push:
-    branches: [ "main", "feat-*" ]
+    branches:
+      - main
+      - feat-*
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 permissions:
   contents: read
