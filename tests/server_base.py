@@ -16,4 +16,4 @@ class BaseTestCase(unittest.TestCase):
 
 	def tearDown(self) -> None:
 		"""Tear down after each testcase"""
-		del self.application
+		self.application = None
