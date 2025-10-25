@@ -44,10 +44,9 @@ def create_application(test_configuration: Optional[Mapping[str, Any]] = None) -
 	
 	# Ensure the instance folder exists
 	os.makedirs(application.instance_path, exist_ok=True)
+	
+	from .routes import routes_blueprint
 
-	# Initial route for testing
-	@application.route("/initial", methods=["GET"])
-	def hello_world() -> dict[str, str]:
-		return {"message": "hello world"}
+	application.register_blueprint(routes_blueprint, url_prefix="/")
 	
 	return application
