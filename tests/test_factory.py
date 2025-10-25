@@ -3,7 +3,7 @@ from flask.testing import FlaskClient
 from server import create_application
 
 class TestApplication(unittest.TestCase):
-	"""InitialTestCase verifies the application's basic startup behavior.
+	"""TestApplication verifies the application's basic startup behavior.
 
 	Asserts that a
 	GET request to the "/initial" endpoint returns the expected JSON payload
