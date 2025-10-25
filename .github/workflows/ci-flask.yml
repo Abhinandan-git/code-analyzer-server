@@ -20,6 +20,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    environment: database
+
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.11
@@ -39,7 +41,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Import env secrets
       env:
-        MONGO_URI: ${{ database.MONGO_URI }}
+        MONGO_URI: ${{ secrets.MONGO_URI }}
     - name: Test with pyUnit
       run: |
         nosetests
