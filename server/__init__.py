@@ -34,7 +34,7 @@ def create_application(test_configuration: Optional[Mapping[str, Any]] = None) -
 	"""
 	
 	# Create and configure the application
-	application = Flask(__name__, instance_relative_config=True)
+	application: Flask = Flask(__name__, instance_relative_config=True)
 
 	if test_configuration is None:
 		# Load instance configuration when not testing
@@ -44,10 +44,9 @@ def create_application(test_configuration: Optional[Mapping[str, Any]] = None) -
 	
 	# Ensure the instance folder exists
 	os.makedirs(application.instance_path, exist_ok=True)
+	
+	from .routes import routes_blueprint
 
-	# Initial route for testing
-	@application.route("/initial", methods=["GET"])
-	def hello_world():
-		return {"message": "hello world"}
+	application.register_blueprint(routes_blueprint, url_prefix="/")
 	
 	return application
