@@ -1,5 +1,4 @@
 import unittest
-from flask.testing import FlaskClient
 from server import create_application
 
 class TestApplication(unittest.TestCase):
