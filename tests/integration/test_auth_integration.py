@@ -6,12 +6,12 @@ from server.routes import session
 from unittest.mock import patch
 from werkzeug.security import generate_password_hash
 
-class TestAuthIntegration(unittest.TestCase):
+class TestAuthIntegration(unittest.TestCase):	
 	@classmethod
 	def setUpClass(cls) -> None:
 		"""Setup before each test instance"""
 		cls.database = connect_database(database_name="TestFlaskApplication")
-		cls.application = create_application({ "TESTING": True }).test_client()
+		cls.application = create_application({ "TESTING": True, "SECRET_KEY": "integration-secret" }).test_client()
 
 	@classmethod
 	def tearDownClass(cls) -> None:

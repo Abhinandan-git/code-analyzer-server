@@ -3,6 +3,7 @@ import mongomock
 
 from werkzeug.security import generate_password_hash
 from server import create_application
+from server.routes import session
 from unittest.mock import patch
 
 class TestAuth(unittest.TestCase):
