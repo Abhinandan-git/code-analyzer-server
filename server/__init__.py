@@ -35,11 +35,9 @@ def create_application(test_configuration: Optional[Mapping[str, Any]] = None) -
 	
 	# Create and configure the application
 	application: Flask = Flask(__name__, instance_relative_config=True)
+	application.secret_key = os.getenv("SECRET_KEY") or ""
 
-	if test_configuration is None:
-		# Load instance configuration when not testing
-		application.config.from_pyfile("config.py", silent=True)
-	else:
+	if test_configuration is not None:
 		application.config.from_mapping(test_configuration, silent=True)
 	
 	# Ensure the instance folder exists
