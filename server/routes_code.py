@@ -2,6 +2,26 @@ import os
 
 from typing import Dict, Tuple
 from flask import Blueprint, session, request
+"""
+Flask Blueprint for code analysis functionality.
+This module provides endpoints for submitting and analyzing code using Google's Generative AI.
+Requires authentication for all routes.
+Routes:
+	/submit (GET): Submit code for analysis using Gemini AI model
+Dependencies:
+	- Flask
+	- Google GenerativeAI client
+	- Valid API key in environment variables
+Functions:
+	check_user(): Middleware to verify user authentication
+	submit_code(): Endpoint to handle code submission and analysis
+Returns:
+	Tuple containing response dictionary and HTTP status code
+Error Codes:
+	- 401: User not authenticated
+	- 400: Empty code submission
+	- 503: AI model failed to generate response
+"""
 
 code_blueprint = Blueprint("code", __name__)
 
