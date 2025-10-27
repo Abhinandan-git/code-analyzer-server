@@ -2,7 +2,7 @@ import unittest
 
 from server.database import connect_database
 from server import create_application
-from server.routes import session
+from server.routes_auth import session
 from unittest.mock import patch
 from werkzeug.security import generate_password_hash
 
@@ -26,7 +26,7 @@ class TestAuthIntegration(unittest.TestCase):
 		"""Tear down before each testcase"""
 		self.database.users.delete_many({})
 
-	@patch("server.routes.connect_database")
+	@patch("server.routes_auth.connect_database")
 	def test_register_login_successful_flow(self, mock_connect_database) -> None:
 		"""Test successful register and login of a user"""
 		mock_connect_database.return_value = self.database

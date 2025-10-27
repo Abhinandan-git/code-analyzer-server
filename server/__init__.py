@@ -43,8 +43,10 @@ def create_application(test_configuration: Optional[Mapping[str, Any]] = None) -
 	# Ensure the instance folder exists
 	os.makedirs(application.instance_path, exist_ok=True)
 	
-	from .routes import routes_blueprint
+	from .routes_auth import routes_blueprint
+	from .routes_code import code_blueprint
 
 	application.register_blueprint(routes_blueprint, url_prefix="/")
+	application.register_blueprint(code_blueprint, url_prefix="/code")
 	
 	return application
