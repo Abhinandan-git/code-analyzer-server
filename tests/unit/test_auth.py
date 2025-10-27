@@ -98,3 +98,14 @@ class TestAuth(unittest.TestCase):
 		response = self.application.post("/login", json={ "username": "wrong_username", "password": "password" })
 		self.assertEqual(response.status_code, 404)
 		self.assertEqual(response.get_json()["error"], "User does not exist")
+
+	@patch("server.routes.connect_database")
+	def test_logout_user(self, mock_connect_database) -> None:
+		"""Test user logout"""
+		mock_connect_database.return_value = self.database
+
+		with self.application as client:
+			client.post("/login", json={ "username": "predefined", "password": "password" })
+			client.get("/logout")
+
+			self.assertIsNone(session.get("user"))
