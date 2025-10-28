@@ -23,3 +23,11 @@ class TestFactory(unittest.TestCase):
 			response = self.application.get("/initial")
 			self.assertEqual(response.status_code, 200)
 			self.assertEqual(response.get_json(), {"message": "hello world"})
+
+	def test_initial_without_config(self) -> None:
+		"""Test initial code with no configurations"""
+		self.application = create_application().test_client()
+		if self.application:
+			response = self.application.get("/initial")
+			self.assertEqual(response.status_code, 200)
+			self.assertEqual(response.get_json(), {"message": "hello world"})
