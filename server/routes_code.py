@@ -1,7 +1,9 @@
 import os
 
-from typing import Dict, Tuple
+from typing import Dict, Tuple, List
 from flask import Blueprint, session, request
+from server.utils import submit_to_database
+from server.database import connect_database
 """
 Flask Blueprint for code analysis functionality.
 This module provides endpoints for submitting and analyzing code using Google's Generative AI.
@@ -52,4 +54,19 @@ def submit_code() -> Tuple[Dict[str, str], int]:
 	if not response.text:
 		return ({"error": "Model did not respond with any content"}, 503)
 	
-	return ({"message": response.text}, 200)
+	database_response = submit_to_database(code, response.text)
+
+	if database_response.get("error"):
+		return ({"error": "Internal Server Error"}, 500)
+	
+	return ({"message": response.text, "message_id": database_response["id"]}, 200)
+
+@code_blueprint.route("/all", methods=["GET"])
+def get_codes() -> Tuple[Dict[str, List], int]:
+	database = connect_database()
+
+	user = session["user"]
+
+	codes = database["users"].find({ "_id": user })
+
+	return ({"codes": codes.to_list()}, 200)

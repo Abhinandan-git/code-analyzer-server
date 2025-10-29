@@ -30,7 +30,7 @@ class TestCodeSubmit(unittest.TestCase):
 
 	@patch("server.routes_auth.connect_database")
 	def test_code_submit_successful(self, mock_connect_database) -> None:
-		"""Test if unauthorized code submission fails"""
+		"""Test if code submission is successful"""
 		mock_connect_database.return_value = self.database
 
 		self.test_code = """print('Hello World')"""
@@ -44,7 +44,7 @@ class TestCodeSubmit(unittest.TestCase):
 
 	@patch("server.routes_auth.connect_database")
 	def test_empty_code(self, mock_connect_database) -> None:
-		"""Test if unauthorized code submission fails"""
+		"""Test if empty code fails"""
 		mock_connect_database.return_value = self.database
 
 		with self.application as client:
@@ -53,3 +53,15 @@ class TestCodeSubmit(unittest.TestCase):
 			response = client.get("/code/submit", json={"code": ""})
 			self.assertEqual(response.status_code, 400)
 			self.assertEqual(response.get_json()["error"], "Code provided is empty")
+
+	@patch("server.routes_auth.connect_database")
+	def test_all_codes(self, mock_connect_database) -> None:
+		"""Test if all codes are fetched"""
+		mock_connect_database.return_value = self.database
+
+		with self.application as client:
+			client.post("/login", json={"username": "predefined", "password": "password"})
+
+			response = client.get("/code/all")
+			self.assertEqual(response.status_code, 200)
+			self.assertIsInstance(response.get_json()["codes"], list)
